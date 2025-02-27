@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform Orientation;
     [SerializeField] private InputReader inputReader;
 
+    [SerializeField] private Animator animator;
+
     private Vector3 velocity;
     private Vector2 move;
     private CharacterController controller;
@@ -26,12 +28,16 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         controller = GetComponent<CharacterController>();
+        animator = transform.Find("GFX")?.GetComponentInChildren<Animator>();
     }
     void Update()
     {
         MovePlayer();
         velocity.y += Physics.gravity.y * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+
+        // Animation
+        animator.SetFloat("Move", move.magnitude);
     }
     void MovePlayer()
     {
